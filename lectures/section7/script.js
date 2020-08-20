@@ -115,7 +115,7 @@ class Street extends Place {
     for (let x of arr) {
       lenght += x.length;
     }
-    return lenght / arr.length;
+    return [lenght , lenght / arr.length];
   }
 
   info()
@@ -154,9 +154,9 @@ const s4 = new Street("s4", 1970, 8500, Street.HUGE);
 const streets = [s1, s2, s3, s4];
 // s1.info();
 
-streets.forEach( el => el.info() );
-const streetAvaregeLength = Street.averageLength(...streets);
-console.log(`The streets average lenght is ${streetAvaregeLength} m;`);
+// streets.forEach( el => el.info() );
+const [lengthStr, streetAvaregeLength] = Street.averageLength(...streets);
+console.log(`The streets have a total of ${lengthStr}m length with average lenght of ${streetAvaregeLength} m.`);
 
 
 console.log("######END#########");
