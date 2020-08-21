@@ -172,9 +172,9 @@ function getWeather(woeid)
     .catch((msg) => console.log("got error: " + msg));
 }
 
-getWeather(455827);
-getWeather(455825);
-getWeather(44418);
+// getWeather(455827);
+// getWeather(455825);
+// getWeather(44418);
 // getWeather(2487956);
 // getWeather(455819);
 // getWeather(455826);
@@ -184,6 +184,33 @@ getWeather(44418);
 // getWeather(395269);
 // getWeather();
 
-//#Async
+//#Async #####################
+
+async function getWeatherAsync(woeid)
+{
+  let pre = "https://cors-anywhere.herokuapp.com/"; //Workaroud -> js only allows requests in actual domain.
+  const url = pre + `https://www.metaweather.com/api/location/${woeid}/`;
+  try
+  {
+    const result = await fetch(url);
+    const obj = await result.json();
+    const today = obj.consolidated_weather[0];
+    if (today){
+      console.log(
+        `${obj.title} / ${obj.parent.title} -> ${today.weather_state_name} ${today.the_temp}ºC`
+      );
+    }
+  }
+  catch(error)
+  {
+    console.warn(`I got the folling error: ${error}`);
+  }
+
+}
+
+getWeatherAsync(455827);
+getWeatherAsync(455825);
+getWeatherAsync(44418);
+// getWeatherAsync();
 
 console.log("##################END###########################");
