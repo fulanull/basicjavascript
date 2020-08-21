@@ -120,16 +120,32 @@ function printPromisses(msg)
 //   .then(printLast)
 //   .catch(rec3);
 
-const p1 = getIDs.then(printWarn, printErr);
-const p2 = p1.then(printResolved2, rec1);
-const p3 = p2.then(printLast, rec3);
-p3.then(printAll, printAll);
+// const p1 = getIDs.then(printWarn, printErr);
+// const p2 = p1.then(printResolved2, rec1);
+// const p3 = p2.then(printLast, rec3);
+// p3.then(printAll, printAll);
 
-function printAll() {
-  console.log(p1);
-  console.log(p2);
-  console.log(p3);
-  return null;
+// function printAll() {
+//   console.log(p1);
+//   console.log(p2);
+//   console.log(p3);
+//   return null;
+// }
+
+//Async FUNCTIONS ################################################
+
+async function getRecipesAW()
+{
+  const IDs = await getIDs;
+  console.log(IDs);
+  const recipe = await getRecipe(IDs[1]);
+  console.log(recipe);
+  const author = await getRelated("Jonh");
+  console.log(author);
+
+  return recipe;
+
 }
+getRecipesAW().then( msg => console.log(`It works!!! : ${msg}`));
 
 console.log("##################END###########################");
