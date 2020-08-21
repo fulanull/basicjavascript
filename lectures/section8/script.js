@@ -146,6 +146,44 @@ async function getRecipesAW()
   return recipe;
 
 }
-getRecipesAW().then( msg => console.log(`It works!!! : ${msg}`));
+//getRecipesAW().then( msg => console.log(`It works!!! : ${msg}`));
+
+//########### AJAX  CALLS - Time Wheather  ####################################
+function getWeather(woeid)
+{
+  let pre = "https://cors-anywhere.herokuapp.com/"; //Workaroud -> js only allows requests in actual domain.
+  const url = pre + `https://www.metaweather.com/api/location/${woeid}/`;
+  // console.log(url);
+  // pre = "";
+  fetch(url)
+    .then((result) => {
+      return result.json();
+    })
+    .then((obj) => {
+      // console.log(obj);
+      const today = obj.consolidated_weather[0];
+      if(today)
+      console.log(
+        `${obj.title} / ${obj.parent.title} -> ${today.weather_state_name} ${today.the_temp}ºC`
+      );
+      // console.log(`${today.weather_state_name} ${today.the_temp}ºC`);
+      // console.log(obj);
+    })
+    .catch((msg) => console.log("got error: " + msg));
+}
+
+getWeather(455827);
+getWeather(455825);
+getWeather(44418);
+// getWeather(2487956);
+// getWeather(455819);
+// getWeather(455826);
+// getWeather(349859);
+// getWeather(418440);
+// getWeather(368148);
+// getWeather(395269);
+// getWeather();
+
+//#Async
 
 console.log("##################END###########################");
