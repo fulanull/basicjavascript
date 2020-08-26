@@ -15,7 +15,8 @@ export default class Search {
             //   console.log(this.result);
             return this.result;
         } catch (error) {
-            console.error(`Error: ${error}`);
+            // console.error(`Error: ${error}`);
+            alert(`Error: ${error}`);
         }
     }
 }

@@ -3,11 +3,11 @@ import { elements } from "./base";
 export const getInput = () => elements.searchInput.value;
 
 export const renderResults = (recipes) => {
-    console.log('Mudei');
-    console.log(recipes);
-    recipes.forEach((element) => {
-        renderRecipe(element);
-    });
+    if (recipes) {
+        recipes.forEach((element) => {
+            renderRecipe(element);
+        });
+    }
 };
 
 export const prepareViewforResults = () => {
@@ -17,11 +17,10 @@ export const prepareViewforResults = () => {
 
 const renderRecipe = (recipe) => {
     const markup = `<li><a class="results__link" href="#${recipe.recipe_id}"><figure class="results__fig">
-    <img src="${recipe.image_url}" alt="${recipe.title}"></figure><div class="results__data"><h4 class="results__name">${limitRecipeTitle (recipe.title)}</h4>
+    <img src="${recipe.image_url}" alt="${recipe.title}"></figure><div class="results__data"><h4 class="results__name">${limitRecipeTitle(recipe.title)}</h4>
     <p class="results__author">${recipe.publisher}</p></div></a></li>`;
     elements.searchResultList.insertAdjacentHTML("beforeend", markup);
 
-    //htmlMark.insertAdjacentHTML('beforeend', htmlContent);
     //   recipe.title;
     //   recipe.social_rank;
     //   recipe.publisher_url;
@@ -37,18 +36,14 @@ const clearResults = () => {
 
 const limitRecipeTitle = (title, limit = 17) => {
 
-    if (title.length > limit)
-    {
+    if (title.length > limit) {
         let i;
-        for( i = limit; i > 0 ; --i)
-        {
-            if( title[i] == ' ' )
-            {
+        for (i = limit; i > 0; --i) {
+            if (title[i] == ' ') {
                 break;
             }
 
-            if(i == 0)
-            {
+            if (i == 0) {
                 i = 17;
             }
         }
