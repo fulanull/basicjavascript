@@ -1,6 +1,6 @@
 import Search from "./models/Search";
 import * as searchView from './views/searchView';
-import { elements, renderLoader, clearLoader } from './views/base';
+import { elements, renderLoader, clearLoader, elementStrings } from './views/base';
 
 console.log("str");
 
@@ -52,7 +52,7 @@ elements.searchForm.addEventListener("submit", (e) => {
 });
 
 elements.searchResultPage.addEventListener("click", e =>{
-    const btn = e.target.closest('.btn-inline');
+    const btn = e.target.closest(`.${elementStrings.searchPageBtn}`);
 
     if(btn)
     {
@@ -62,6 +62,19 @@ elements.searchResultPage.addEventListener("click", e =>{
         searchView.renderResults(state.search.result, gotoPage);
     }
 } );
+
+elements.searchResultList.addEventListener('click', e => {
+    const item = e.target.closest(`.${elementStrings.searchResultLink}`);
+    console.log(item);
+
+    if(item)
+    {
+        // const id = parseInt( item.dataset.id, 16);
+        const id = item.dataset.id;
+        console.log(`got Id ${id} from  ${item.dataset.id}`);
+    }
+    // const item = e.target.closest('.results__link');
+});
 
 console.warn("Remove this click bellow.");
 elements.searchInput.value = "pie";

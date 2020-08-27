@@ -1,15 +1,23 @@
-export const elements = {
-    searchResults: document.querySelector(".results"),
-    searchResultList: document.querySelector(".results__list"),
-    searchResultPage: document.querySelector(".results__pages"),
-    searchBnt: document.querySelector(".search__btn"),
-    searchForm: document.querySelector(".search"),
-    searchInput: document.querySelector(".search__field"),
-};
-
 export const elementStrings = {
-    loader: 'loader'
+    loader: 'loader',
+    searchResults: "results",
+    searchResultList: "results__list",
+    searchResultLink: "results__link",
+    searchResultPage: "results__pages",
+    searchBnt: "search__btn",
+    searchPageBtn:"btn-inline",
+    searchForm: "search",
+    searchInput: "search__field",
 }
+
+export const elements = {
+    searchResults: document.querySelector(`.${elementStrings.searchResults}`),
+    searchResultList: document.querySelector(`.${elementStrings.searchResultList}`),
+    searchResultPage: document.querySelector(`.${elementStrings.searchResultPage}`),
+    searchBnt: document.querySelector(`.${elementStrings.searchBnt}`),
+    searchForm: document.querySelector(`.${elementStrings.searchForm}`),
+    searchInput: document.querySelector(`.${elementStrings.searchInput}`),
+};
 
 export const renderLoader = parent => {
     const loader = `<div class="${elementStrings.loader}"><svg> <use href="img/icons.svg#icon-cw"></use> </svg></div>`;
