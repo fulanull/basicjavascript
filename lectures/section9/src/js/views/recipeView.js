@@ -6,16 +6,15 @@ export const prepareViewforResults = () => {
 
 export const renderRecipe = (recipe) =>
 {
-    console.log(`${recipe}`);
-    console.log(recipe);
+    // console.log(`${recipe}`);
+    // console.log(recipe);
     let recipeHtml;
-    recipeHtml += getFigureDivHTML(recipe.title, recipe.image_url);
-    recipeHtml += getRecipeDetailsDivHTML( 666, 30);
+    recipeHtml += getFigureDivHTML(recipe.title, recipe.img);
+    recipeHtml += getRecipeDetailsDivHTML(recipe.time, recipe.servings);
     if (recipe.ingredients)
     {
         recipeHtml += getRecipeIngredientsList(recipe.ingredients);
     }
-
 
     elements.recipeContainer.innerHTML = recipeHtml;
 

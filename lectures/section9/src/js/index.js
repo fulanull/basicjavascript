@@ -65,35 +65,51 @@ elements.searchResultPage.addEventListener("click", e =>{
     }
 } );
 
-elements.searchResultList.addEventListener('click', async function (e) {
-    const item = e.target.closest(`.${elementStrings.searchResultLink}`);
-    console.log(item);
 
-    if(item)
-    {
+
+//Recipe CONTROLLER
+
+const controllerRecipe = async function (e) {
+    // const item = e.target.closest(`.${elementStrings.searchResultLink}`);
+    const item = window.location.hash;
+    // console.log(item);
+    // console.log(location);
+    // console.log(location.hash);
+
+    if (item) {
         // const id = parseInt( item.dataset.id, 16);
-        const id = item.dataset.id;
-        console.log(`got Id ${id} from  ${item.dataset.id}`);
+        // const id = item.dataset.id;
+        const id = item.split('#')[1];
+        // console.log(`got Id ${id} from  ${item.dataset.id}`);
 
         state.recipe = new Recipe(id);
 
-        //prepare UI fot the results
-        recipeView.prepareViewforResults();
-        renderLoader(elements.recipeContainer);
+        try {
+            //prepare UI fot the results
+            recipeView.prepareViewforResults();
+            renderLoader(elements.recipeContainer);
 
-        //get recipe
-        await state.recipe.getResults();
+            //get recipe
+            await state.recipe.getResults();
 
-        // console.log(state.recipe);
-        // console.log(state.recipe.result);
+            // console.log(state.recipe);
+            // console.log(state.recipe.result);
 
-        //render recipe
-        recipeView.renderRecipe(state.recipe.result);
+            //render recipe
+            recipeView.renderRecipe(state.recipe);
+        } catch (error) {
+            recipeView.prepareViewforResults();
+            console.log('Error here' + error);
+            // alert('Error here!');
+        }
         clearLoader(elements.recipeContainer);
 
     }
     // const item = e.target.closest('.results__link');
-});
+};
+
+//elements.searchResultList.addEventListener('click', controllerRecipe);
+window.addEventListener('hashchange', controllerRecipe);
 
 console.warn("Remove this click bellow.");
 elements.searchInput.value = "pie";
