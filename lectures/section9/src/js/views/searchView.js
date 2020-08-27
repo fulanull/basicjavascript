@@ -2,11 +2,21 @@ import { elements } from "./base";
 
 export const getInput = () => elements.searchInput.value;
 
-export const renderResults = (recipes) => {
+export const renderResults = (recipes, page=1, resultsPerPage = 5) => {
     if (recipes) {
-        recipes.forEach((element) => {
-            renderRecipe(element);
-        });
+        let start = (page -1)*resultsPerPage;
+        let end = start + resultsPerPage;
+        start = (start > recipes.length ? recipes.length - resultsPerPage : start);
+        end = (end > recipes.length ? recipes.length : end);
+
+        console.log(`Page: ${page} - PerPage: ${resultsPerPage} - start: ${start} - end: ${end} - length: ${recipes.length}`);
+        renderButtons(page, recipes.length, resultsPerPage);
+
+        for (let i = start; i < end ; ++ i)
+        {
+            renderRecipe( recipes[i]);
+        }
+        // recipes.slice(start, end).forEach(renderRecipe);
     }
 };
 
@@ -25,6 +35,30 @@ const renderRecipe = (recipe) => {
     //   recipe.social_rank;
     //   recipe.publisher_url;
     //   recipe.source_url;
+};
+
+const renderButtons = (page, numResults, resPerPage) =>
+{
+    const pages = Math.ceil(numResults/resPerPage);
+    let htmlText = '';
+
+    if(page > 1 )
+    {
+        //show prev page number
+        htmlText = createButton(page-1, false);
+    }
+
+    if(page < pages)
+    {
+        //show nextPage Button
+        htmlText += createButton(page + 1, true);
+    }
+    elements.searchResultPage.innerHTML = htmlText;
+}
+
+const createButton = (page, fowardButton = true) => {
+    return `<button class="btn-inline results__btn--${fowardButton ? 'next' : 'prev'}" data-goto="${page}" ><svg class="search__icon">
+                <use href="img/icons.svg#icon-triangle-${fowardButton ? 'right' : 'left'}"></use></svg><span>Page ${page}</span></button>`;
 };
 
 const clearInput = () => {

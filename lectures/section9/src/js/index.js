@@ -51,6 +51,18 @@ elements.searchForm.addEventListener("submit", (e) => {
     // console.log(`Valor: ${e.value}`);
 });
 
+elements.searchResultPage.addEventListener("click", e =>{
+    const btn = e.target.closest('.btn-inline');
+
+    if(btn)
+    {
+        // const page = parseInt(btn.attributes['data-goto'].value);
+        const gotoPage = parseInt(btn.dataset.goto, 10);
+        searchView.prepareViewforResults();
+        searchView.renderResults(state.search.result, gotoPage);
+    }
+} );
+
 console.warn("Remove this click bellow.");
 elements.searchInput.value = "pie";
 elements.searchBnt.click();
