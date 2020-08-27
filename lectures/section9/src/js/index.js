@@ -1,6 +1,8 @@
 import Search from "./models/Search";
 import * as searchView from './views/searchView';
 import { elements, renderLoader, clearLoader, elementStrings } from './views/base';
+import Recipe from "./models/Recipe";
+import * as recipeView from './views/recipeView';
 
 console.log("str");
 
@@ -63,7 +65,7 @@ elements.searchResultPage.addEventListener("click", e =>{
     }
 } );
 
-elements.searchResultList.addEventListener('click', e => {
+elements.searchResultList.addEventListener('click', async function (e) {
     const item = e.target.closest(`.${elementStrings.searchResultLink}`);
     console.log(item);
 
@@ -72,6 +74,23 @@ elements.searchResultList.addEventListener('click', e => {
         // const id = parseInt( item.dataset.id, 16);
         const id = item.dataset.id;
         console.log(`got Id ${id} from  ${item.dataset.id}`);
+
+        state.recipe = new Recipe(id);
+
+        //prepare UI fot the results
+        recipeView.prepareViewforResults();
+        renderLoader(elements.recipeContainer);
+
+        //get recipe
+        await state.recipe.getResults();
+
+        // console.log(state.recipe);
+        // console.log(state.recipe.result);
+
+        //render recipe
+        recipeView.renderRecipe(state.recipe.result);
+        clearLoader(elements.recipeContainer);
+
     }
     // const item = e.target.closest('.results__link');
 });

@@ -1,5 +1,6 @@
 export const elementStrings = {
     loader: 'loader',
+    recipeContainer: 'recipe',
     searchResults: "results",
     searchResultList: "results__list",
     searchResultLink: "results__link",
@@ -11,6 +12,7 @@ export const elementStrings = {
 }
 
 export const elements = {
+    recipeContainer: document.querySelector(`.${elementStrings.recipeContainer}`),
     searchResults: document.querySelector(`.${elementStrings.searchResults}`),
     searchResultList: document.querySelector(`.${elementStrings.searchResultList}`),
     searchResultPage: document.querySelector(`.${elementStrings.searchResultPage}`),

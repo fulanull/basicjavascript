@@ -9,7 +9,7 @@ export const renderResults = (recipes, page=1, resultsPerPage = 5) => {
         start = (start > recipes.length ? recipes.length - resultsPerPage : start);
         end = (end > recipes.length ? recipes.length : end);
 
-        console.log(`Page: ${page} - PerPage: ${resultsPerPage} - start: ${start} - end: ${end} - length: ${recipes.length}`);
+        // console.log(`Page: ${page} - PerPage: ${resultsPerPage} - start: ${start} - end: ${end} - length: ${recipes.length}`);
         renderButtons(page, recipes.length, resultsPerPage);
 
         for (let i = start; i < end ; ++ i)
@@ -26,7 +26,7 @@ export const prepareViewforResults = () => {
 };
 
 const renderRecipe = (recipe) => {
-    const markup = `<li><a class="results__link" href="#${recipe.recipe_id}"><figure class="results__fig">
+    const markup = `<li><a class="results__link" href="#${recipe.recipe_id}" data-id="${recipe.recipe_id}"><figure class="results__fig">
     <img src="${recipe.image_url}" alt="${recipe.title}"></figure><div class="results__data"><h4 class="results__name">${limitRecipeTitle(recipe.title)}</h4>
     <p class="results__author">${recipe.publisher}</p></div></a></li>`;
     elements.searchResultList.insertAdjacentHTML("beforeend", markup);
