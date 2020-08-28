@@ -114,7 +114,25 @@ const controllerRecipe = async function (e) {
 // elements.searchResultList.addEventListener('click', controllerRecipe);
 window.addEventListener('hashchange', controllerRecipe);
 
+
+elements.recipeContainer.addEventListener('click', e => {
+    let changed;
+    if (e.target.matches('use[href="img/icons.svg#icon-circle-with-minus"]')){
+        changed = state.recipe.updateServings('dec');
+    }
+    else if (e.target.matches('use[href="img/icons.svg#icon-circle-with-plus"]')) {
+        changed = state.recipe.updateServings('inc');
+    }
+
+    if(changed)
+    {
+        recipeView.updateServingsIngredients(state.recipe);
+    }
+});
+
+
 console.warn("Remove this click bellow.");
-elements.searchInput.value = "pie";
+// elements.searchInput.value = "pie";
+elements.searchInput.value = "pizza";
 elements.searchBnt.click();
 console.log("The end!!!  #########################################");

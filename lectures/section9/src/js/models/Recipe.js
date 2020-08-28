@@ -179,4 +179,21 @@ export default class Recipe{
         // console.log(newIngredients);
         this.ingredients = newIngredients;
     }
+
+    updateServings (type){
+
+        const servingsNumber = (type === 'inc' ? this.servings+1 : this.servings-1);
+        if(this.servings && servingsNumber > 0)
+        {
+            //servings
+            const ratio = servingsNumber/this.servings;
+            this.servings = servingsNumber;
+
+            //ingridients
+            this.ingredients.forEach( el => el.count *= ratio);
+
+            return true;
+        }
+        return false;
+    }
 }
