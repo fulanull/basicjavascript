@@ -89,6 +89,9 @@ const controllerRecipe = async function (e) {
             recipeView.prepareViewforResults();
             renderLoader(elements.recipeContainer);
 
+            //Highlight Selected search item
+            searchView.highlightSelected(id);
+
             //get recipe
             await state.recipe.getResults();
 
@@ -108,7 +111,7 @@ const controllerRecipe = async function (e) {
     // const item = e.target.closest('.results__link');
 };
 
-//elements.searchResultList.addEventListener('click', controllerRecipe);
+// elements.searchResultList.addEventListener('click', controllerRecipe);
 window.addEventListener('hashchange', controllerRecipe);
 
 console.warn("Remove this click bellow.");

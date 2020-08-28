@@ -86,6 +86,9 @@ const getRecipeItem = (recipeItem) => {
 };
 
 const formatCount = count => {
+
+    if (!count) return '?';
+
     const intPart = Math.trunc( count);
     let fractionPart ='';
     let intPartStr = '';
