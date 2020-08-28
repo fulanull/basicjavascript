@@ -1,4 +1,4 @@
-import { elements } from "./base";
+import { elements, limitRecipeTitle } from "./base";
 
 export const getInput = () => elements.searchInput.value;
 
@@ -75,21 +75,3 @@ const clearResults = () => {
     elements.searchResultList.innerHTML = "";
 };
 
-const limitRecipeTitle = (title, limit = 17) => {
-
-    if (title.length > limit) {
-        let i;
-        for (i = limit; i > 0; --i) {
-            if (title[i] == ' ') {
-                break;
-            }
-
-            if (i == 0) {
-                i = 17;
-            }
-        }
-        return `${title.substring(0, i)} ...`;
-    }
-
-    return title;
-};

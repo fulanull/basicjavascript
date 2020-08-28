@@ -5,6 +5,8 @@ import Recipe from "./models/Recipe";
 import * as recipeView from './views/recipeView';
 import List from "./models/List";
 import * as listView from './views/listView';
+import Likes from "./models/Likes";
+import * as viewLikes from './views/viewLikes';
 
 console.log("str");
 
@@ -65,13 +67,51 @@ elements.searchResultPage.addEventListener("click", e =>{
         searchView.prepareViewforResults();
         searchView.renderResults(state.search.result, gotoPage);
     }
-} );
+});
+
+
+elements.recipeContainer.addEventListener('click', e => {
+    let changed;
+    if (e.target.matches('use[href="img/icons.svg#icon-circle-with-minus"]')) {
+        changed = state.recipe.updateServings('dec');
+    }
+    else if (e.target.matches('use[href="img/icons.svg#icon-circle-with-plus"]')) {
+        changed = state.recipe.updateServings('inc');
+    } else if (e.target.matches('.recipe__btn--add, .recipe__btn--add *')) {
+        controlList();
+    } else if (e.target.matches(`.${elementStrings.recipeLike}, .${elementStrings.recipeLike} *`)) {
+        controlLikes();
+    }
+
+    if (changed) {
+        recipeView.updateServingsIngredients(state.recipe);
+    }
+});
+
+elements.shoppingList.addEventListener('click', e => {
+    const me = e.target.closest('.shopping__item');
+    const id = me.dataset.itemid;
+
+    //Handle Delete
+    if (e.target.matches('.shopping__delete, .shopping__delete *')) {
+        state.list.deleteItem(id);
+        listView.deleteItem(id);
+    } else if (e.target.matches('.shopping__count-value')) {
+        // console.log('Clicou onde queria:' + e.target.value);
+        state.list.updateCount(id, parseFloat(e.target.value, 10));
+        // console.log(state.list.getItem(id));
+    }
+});
+
+// elements.searchResultList.addEventListener('click', controllerRecipe);
+window.addEventListener('hashchange', controllerRecipe);
+
 
 
 
 //Recipe CONTROLLER
 
-const controllerRecipe = async function (e) {
+async function controllerRecipe(e) {
     // const item = e.target.closest(`.${elementStrings.searchResultLink}`);
     const item = window.location.hash;
     // console.log(item);
@@ -101,7 +141,12 @@ const controllerRecipe = async function (e) {
             // console.log(state.recipe.result);
 
             //render recipe
-            recipeView.renderRecipe(state.recipe);
+            let liked = false;
+            liked = (state.likes ? state.likes.isLiked(id) : false );
+            recipeView.renderRecipe(state.recipe, liked);
+
+            // if(state.likes) viewLikes.toggleLikeButton( state.likes.isLiked(id));
+
         } catch (error) {
             recipeView.prepareViewforResults();
             console.log('Error here' + error);
@@ -113,47 +158,13 @@ const controllerRecipe = async function (e) {
     // const item = e.target.closest('.results__link');
 };
 
-// elements.searchResultList.addEventListener('click', controllerRecipe);
-window.addEventListener('hashchange', controllerRecipe);
 
-
-elements.recipeContainer.addEventListener('click', e => {
-    let changed;
-    if (e.target.matches('use[href="img/icons.svg#icon-circle-with-minus"]')){
-        changed = state.recipe.updateServings('dec');
-    }
-    else if (e.target.matches('use[href="img/icons.svg#icon-circle-with-plus"]')) {
-        changed = state.recipe.updateServings('inc');
-    } else if (e.target.matches('.recipe__btn--add, .recipe__btn--add *')) {
-        controlList();
-    }
-
-    if (changed) {
-        recipeView.updateServingsIngredients(state.recipe);
-    }
-});
-
-elements.shoppingList.addEventListener('click', e => {
-    const me = e.target.closest('.shopping__item');
-    const id = me.dataset.itemid;
-
-    //Handle Delete
-    if (e.target.matches('.shopping__delete, .shopping__delete *'))
-    {
-        state.list.deleteItem(id);
-        listView.deleteItem(id);
-    } else if (e.target.matches('.shopping__count-value')){
-        // console.log('Clicou onde queria:' + e.target.value);
-        state.list.updateCount(id, parseFloat(e.target.value,10));
-        // console.log(state.list.getItem(id));
-    }
-});
 
 
 /**
  * LIST CONTROLLER
  */
-const controlList = () =>
+function controlList ()
 {
     //Create a new list if there is none yet
     if(!state.list) state.list = new List();
@@ -168,7 +179,30 @@ const controlList = () =>
 }
 
 
+/**
+ * LIKES CONTROLLER
+ */
 
+ function controlLikes()
+ {
+     if (state.recipe)
+     {
+         const rcp = state.recipe;
+         if( ! state.likes) state.likes = new Likes();
+         const liked = state.likes.isLiked(rcp.id);
+         if( liked )
+         {
+             state.likes.deleteLike(rcp.id);
+             viewLikes.deleteLike(rcp.id);
+         }else{
+             const likeItem = state.likes.addLike(rcp.id, rcp.title, rcp.author, rcp.img);
+             viewLikes.renderLike(likeItem);
+         }
+         viewLikes.toggleLikeMenu(state.likes.getNumLikes());
+         viewLikes.toggleLikeButton(!liked);
+
+     }
+ }
 
 
 console.warn("Remove this click bellow.");

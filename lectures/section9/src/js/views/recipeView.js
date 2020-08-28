@@ -5,11 +5,11 @@ export const prepareViewforResults = () => {
     clearResults();
 };
 
-export const renderRecipe = (recipe) =>
+export const renderRecipe = (recipe, isLiked) =>
 {
     let recipeHtml;
-    recipeHtml += getFigureDivHTML(recipe.title, recipe.img);
-    recipeHtml += getRecipeDetailsDivHTML(recipe.time, recipe.servings);
+    recipeHtml = getFigureDivHTML(recipe.title, recipe.img);
+    recipeHtml += getRecipeDetailsDivHTML(recipe.time, recipe.servings, isLiked);
     if (recipe.ingredients)
     {
         recipeHtml += getRecipeIngredientsList(recipe.ingredients);
@@ -37,7 +37,7 @@ const getFigureDivHTML = (title, imgUrl) =>
     return `<figure class="recipe__fig"><img src="${imgUrl}" alt="${title}" class="recipe__img"><h1 class="recipe__title"><span>${title}</span></h1></figure>`;
 };
 
-const getRecipeDetailsDivHTML = (minutes, servesXPeople) => {
+const getRecipeDetailsDivHTML = (minutes, servesXPeople, isLiked = false) => {
     let auxHTML ;
 
     auxHTML = `<div class="recipe__details"><div class="recipe__info"><svg class="recipe__info-icon">
@@ -49,7 +49,7 @@ const getRecipeDetailsDivHTML = (minutes, servesXPeople) => {
     <div class="recipe__info-buttons"><button class="btn-tiny"><svg><use href="img/icons.svg#icon-circle-with-minus"></use>
     </svg></button><button class="btn-tiny"><svg><use href="img/icons.svg#icon-circle-with-plus"></use></svg></button></div></div>`;
 
-    auxHTML += `<button class="recipe__love"><svg class="header__likes"><use href="img/icons.svg#icon-heart-outlined"></use>
+    auxHTML += `<button class="recipe__love"><svg class="header__likes"><use href="img/icons.svg#icon-heart${isLiked ? '' :'-outlined'}"></use>
     </svg></button></div>`;
 
     return auxHTML;
