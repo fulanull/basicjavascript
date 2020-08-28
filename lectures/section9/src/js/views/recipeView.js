@@ -1,4 +1,5 @@
 import { elements } from "./base";
+import { Fraction } from 'fractional';
 
 export const prepareViewforResults = () => {
     clearResults();
@@ -14,6 +15,7 @@ export const renderRecipe = (recipe) =>
         recipeHtml += getRecipeIngredientsList(recipe.ingredients);
     }
 
+    recipeHtml += getRecipeDirections(recipe);
     elements.recipeContainer.innerHTML = recipeHtml;
 
 };
@@ -62,21 +64,44 @@ const getRecipeIngredientsList = (ingredients) => {
     return auxHTML;
 };
 
+const getRecipeDirections = recipe =>
+{
+    let auxHTML;
+
+    auxHTML = `<div class="recipe__directions"><h2 class="heading-2">How to cook it</h2><p class="recipe__directions-text">
+        This recipe was carefully designed and tested by<span class="recipe__by"> ${recipe.author}</span>. Please check out directions at their website.
+    </p><a class="btn-small recipe__btn" href="${recipe.url}" target="_blank"><span>Directions</span><svg class="search__icon">
+    <use href="img/icons.svg#icon-triangle-right"></use></svg></a></div>`;
+
+    return auxHTML
+}
+
 const getRecipeItem = (recipeItem) => {
     let auxHTML;
 
     auxHTML = `<li class="recipe__item"><svg class="recipe__icon"><use href="img/icons.svg#icon-check"></use>
-            </svg><div class="recipe__count">${recipeItem.count}</div><div class="recipe__ingredient"><span class="recipe__unit">${recipeItem.unit}</span>${recipeItem.ingredient}</div></li>`;
+            </svg><div class="recipe__count">${formatCount(recipeItem.count)}</div><div class="recipe__ingredient"><span class="recipe__unit">${recipeItem.unit}</span>${recipeItem.ingredient}</div></li>`;
 
     return auxHTML;
 };
 
-const parseDataItem = (recipeItem) =>
-{
-    const words = recipeItem.split(' ');
-    const name = words.slice(2,words.length).join(' ');
+const formatCount = count => {
+    const intPart = Math.trunc( count);
+    let fractionPart ='';
+    let intPartStr = '';
 
+    // return count;
 
-    return [` ${name} `, words[0], words[1]];
+    if(intPart > 0 )
+    {
+        intPartStr = intPart;
+    }
+
+    const floatPart = count - intPart;
+    if( floatPart !== 0)
+    {
+        fractionPart = (new Fraction(floatPart)).toString();
+    }
+
+    return `${intPartStr} ${fractionPart}`;
 };
-
