@@ -6,8 +6,6 @@ export const prepareViewforResults = () => {
 
 export const renderRecipe = (recipe) =>
 {
-    // console.log(`${recipe}`);
-    // console.log(recipe);
     let recipeHtml;
     recipeHtml += getFigureDivHTML(recipe.title, recipe.img);
     recipeHtml += getRecipeDetailsDivHTML(recipe.time, recipe.servings);
@@ -66,13 +64,9 @@ const getRecipeIngredientsList = (ingredients) => {
 
 const getRecipeItem = (recipeItem) => {
     let auxHTML;
-    let name, amount, unit;
 
-    [name, amount, unit] = parseDataItem(recipeItem);
     auxHTML = `<li class="recipe__item"><svg class="recipe__icon"><use href="img/icons.svg#icon-check"></use>
-            </svg><div class="recipe__count">${amount}</div><div class="recipe__ingredient"><span class="recipe__unit">${unit}</span>${name}</div></li>`;
-
-    // auxHTML = ``;
+            </svg><div class="recipe__count">${recipeItem.count}</div><div class="recipe__ingredient"><span class="recipe__unit">${recipeItem.unit}</span>${recipeItem.ingredient}</div></li>`;
 
     return auxHTML;
 };
