@@ -124,13 +124,51 @@ elements.recipeContainer.addEventListener('click', e => {
     }
     else if (e.target.matches('use[href="img/icons.svg#icon-circle-with-plus"]')) {
         changed = state.recipe.updateServings('inc');
+    } else if (e.target.matches('.recipe__btn--add, .recipe__btn--add *')) {
+        controlList();
     }
 
-    if(changed)
-    {
+    if (changed) {
         recipeView.updateServingsIngredients(state.recipe);
     }
 });
+
+elements.shoppingList.addEventListener('click', e => {
+    const me = e.target.closest('.shopping__item');
+    const id = me.dataset.itemid;
+
+    //Handle Delete
+    if (e.target.matches('.shopping__delete, .shopping__delete *'))
+    {
+        state.list.deleteItem(id);
+        listView.deleteItem(id);
+    } else if (e.target.matches('.shopping__count-value')){
+        // console.log('Clicou onde queria:' + e.target.value);
+        state.list.updateCount(id, parseFloat(e.target.value,10));
+        // console.log(state.list.getItem(id));
+    }
+});
+
+
+/**
+ * LIST CONTROLLER
+ */
+const controlList = () =>
+{
+    //Create a new list if there is none yet
+    if(!state.list) state.list = new List();
+
+    //Add each ingredient to the list
+    state.recipe.ingredients.forEach(el => {
+        const item = state.list.addItem(el.count, el.unit, el.ingredient);
+
+        //render data
+        listView.renderItem(item);
+    });
+}
+
+
+
 
 
 console.warn("Remove this click bellow.");

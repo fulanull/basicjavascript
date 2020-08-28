@@ -66,7 +66,7 @@ const getRecipeIngredientsList = (ingredients) => {
 
     // auxHTML += ``;
 
-    auxHTML += `<button class="btn-small recipe__btn"><svg class="search__icon"><use href="img/icons.svg#icon-shopping-cart"></use>
+    auxHTML += `<button class="btn-small recipe__btn recipe__btn--add"><svg class="search__icon"><use href="img/icons.svg#icon-shopping-cart"></use>
     </svg><span>Add to shopping list</span></button></div>`;
 
     return auxHTML;
