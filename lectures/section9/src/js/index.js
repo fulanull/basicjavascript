@@ -3,6 +3,8 @@ import * as searchView from './views/searchView';
 import { elements, renderLoader, clearLoader, elementStrings } from './views/base';
 import Recipe from "./models/Recipe";
 import * as recipeView from './views/recipeView';
+import List from "./models/List";
+import * as listView from './views/listView';
 
 console.log("str");
 
