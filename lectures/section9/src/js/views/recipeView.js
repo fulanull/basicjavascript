@@ -90,8 +90,6 @@ const formatCount = count => {
     let fractionPart ='';
     let intPartStr = '';
 
-    // return count;
-
     if(intPart > 0 )
     {
         intPartStr = intPart;
