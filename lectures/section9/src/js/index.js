@@ -107,6 +107,15 @@ elements.shoppingList.addEventListener('click', e => {
 window.addEventListener('hashchange', controllerRecipe);
 
 
+//restore liked recipes on page loads
+
+window.addEventListener( 'load' ,(e) => {
+    state.likes = new Likes();
+    state.likes.readStorage();
+    viewLikes.toggleLikeMenu(state.likes.getNumLikes());
+    state.likes.likes.forEach( viewLikes.renderLike );
+    // console.log(state.likes);
+}) ;
 
 
 //Recipe CONTROLLER
@@ -142,7 +151,10 @@ async function controllerRecipe(e) {
 
             //render recipe
             let liked = false;
-            liked = (state.likes ? state.likes.isLiked(id) : false );
+            if (state.likes)
+            {
+                liked = state.likes.isLiked(id);
+            }
             recipeView.renderRecipe(state.recipe, liked);
 
             // if(state.likes) viewLikes.toggleLikeButton( state.likes.isLiked(id));
@@ -188,7 +200,7 @@ function controlList ()
      if (state.recipe)
      {
          const rcp = state.recipe;
-         if( ! state.likes) state.likes = new Likes();
+
          const liked = state.likes.isLiked(rcp.id);
          if( liked )
          {

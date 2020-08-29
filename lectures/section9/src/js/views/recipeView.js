@@ -97,16 +97,40 @@ const formatCount = count => {
 
     if (!count) return '?';
 
-    const intPart = Math.trunc( count);
+    const newCount = Math.round(count*10000)/10000;
+
+    const intPart = Math.trunc( newCount);
     let fractionPart ='';
     let intPartStr = '';
+
+
 
     if(intPart > 0 )
     {
         intPartStr = intPart;
     }
 
-    const floatPart = count - intPart;
+    let floatPart = newCount - intPart;
+    // floatPart = Math.round(floatPart*100)/100;
+
+    switch (floatPart) {
+        case (floatPart < 0.13):
+            floatPart =0;
+            break;
+        case (floatPart < 0.38):
+            floatPart =0.25;
+            break;
+        case (floatPart < 0.63):
+            floatPart =0.5;
+            break;
+        case (floatPart < 0.88):
+            // floatPart =0.75;
+            // break;
+        default:
+            floatPart = 0.75;
+            break;
+    }
+
     if( floatPart !== 0)
     {
         fractionPart = (new Fraction(floatPart)).toString();
